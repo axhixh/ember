@@ -1,5 +1,6 @@
-package axhixh.ember;
+package np.com.axhixh.ember;
 
+import np.com.axhixh.ember.Ember;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
