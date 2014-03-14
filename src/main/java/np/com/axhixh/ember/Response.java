@@ -24,6 +24,10 @@ public class Response {
         this.status = code;
     }
     
+    public void addHeader(String key, String value) {
+        he.getResponseHeaders().add(key, value);
+    }
+    
     public void send(String content)  {
         byte[] b = content.getBytes();
         try {
