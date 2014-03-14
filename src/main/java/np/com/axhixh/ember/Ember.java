@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Executor;
 
 public final class Ember {
 
@@ -34,6 +35,18 @@ public final class Ember {
         return port;
     }
 
+    public static void setAddr(String addr) {
+        Ember.addr = addr;
+    }
+    
+    public static String getAddr() {
+        return addr;
+    }
+    
+    public static void setExecutor(Executor executor) {
+        Ember.executor = executor;
+    }
+    
     public static void stop() {
         server.stop(0);
     }
@@ -46,7 +59,10 @@ public final class Ember {
         initialized = true;
         try {
             routeMatcher = new RouteMatcher();
-            server = HttpServer.create(new InetSocketAddress(port), BACKLOG);
+            InetSocketAddress socketAddr = addr == null ? new InetSocketAddress(port) :
+                    new InetSocketAddress(addr, port);
+            server = HttpServer.create(socketAddr, BACKLOG);
+            server.setExecutor(executor);
             server.createContext("/", new HttpHandler() {
 
                 @Override
@@ -96,6 +112,8 @@ public final class Ember {
 
     private static boolean initialized;
     private static int port = 6789;
+    private static String addr;
+    private static Executor executor;
     private static HttpServer server;
     private static RouteMatcher routeMatcher;
 
